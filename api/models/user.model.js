@@ -10,7 +10,12 @@ const userSchema = new mongoose.Schema(
     email:{
         type: String,
         required: true,
-    },},{timestamps: true}  //Mongoose automatically adds 'createdAt' and 'updatedAt' fields to the schema
+    },
+    password:{
+        type:String,
+        required:true,
+    }
+    },{timestamps: true}  //Mongoose automatically adds 'createdAt' and 'updatedAt' fields to the schema
 );
 
     const User = mongoose.model('User',userSchema);  //It allows us to interact with the users collection in the database.
