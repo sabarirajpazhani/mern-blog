@@ -21,5 +21,16 @@ app.listen(3000,()=>{
 app.use('/api/user',userRoutes);   //checking api
 app.use('/api/auth',authRoutes);   //signup api
 
+//middleware and error handling
+app.use((err,req,res,next)=>{
+    const statuscode=err.statuscode || 500;    //represents an 'Internal Server Error'. This ensures that there is always a valid HTTP status code to send in the error response.
+    const message = err.message || 'Internal Server Error'; //This ensures that there is always a meaningful message to send in an error response.
+    res.status(statuscode).json({
+        success:false,
+        statuscode,
+        message
+    })
+});
+
 
     
