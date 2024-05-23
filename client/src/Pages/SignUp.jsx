@@ -7,8 +7,8 @@ import { Link, useNavigate } from "react-router-dom";
 export default function SignUp() {
   const [formData,setFormData] = useState({});          //event handling
   const [errorMessage, setErrorMessage]=useState(null);  //error message for the not filling the form 
-  const [loading,setLoading]=useState(false);
-  const navigat=useNavigate();
+  const [loading,setLoading]=useState(false);   
+  const navigat=useNavigate();   //for navigation of one page to another
   const handleChange=(e)=>{
     setFormData({...formData,[e.target.id]:e.target.value.trim()}); //trim - for removing the sapce that can be write in the form.
   }
@@ -35,7 +35,7 @@ export default function SignUp() {
         return setErrorMessage(data.message);
       }
       setLoading(false);    //if everything is correct or done clearly without any error.. it can not load
-      if(res.ok){
+      if(res.ok){           //navigate to signin page
         navigat('/sign-in');
       }
     }
@@ -56,7 +56,10 @@ export default function SignUp() {
           </span>
           ChroniclesTemple
           </Link>
-          <p className=' text-justify text-sm mt-5'>
+          <p className=' text-justify text-sm mt-4'>
+            <div className="font-serif  text-4xl">
+              <p>Vanakkam</p>
+            </div>
           Explore Tamil Nadu's rich temple heritage with detailed histories, architectural insights, and cultural significance. Whether you're a local or a foreign Visitor, Signup with your email and password to begin your journey. Start exploring today!
           {/* Signup with your email and password to begin your journey.Start exploring today!  */}
           </p>
@@ -89,7 +92,7 @@ export default function SignUp() {
         </form>
         <div className='flex grap-1 text-sm mt-5'>
           <span>Have an Account?</span>
-          <Link to='/sign-up' className='text-blue-500'>
+          <Link to='/sign-in' className='text-blue-500'>
             Sign In
           </Link>
         </div>
