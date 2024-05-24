@@ -1,5 +1,6 @@
 import express from 'express';   //signup api 
-import { signup } from '../controllers/auth.controller.js';
+import { signin, signup } from '../controllers/auth.controller.js';
 const router=express.Router();
 router.post('/signup',signup);
+router.post('/signin',signin);  //signin function is executed to handle the request.
 export default router;         
