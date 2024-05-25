@@ -1,13 +1,14 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
+import { useDispatch, useSelector} from "react-redux";
+import { signInStart,signInSuccess,signInFailure } from "../redux/user/userSlice";
 
 //The formData state variable holds the current values of the form inputs. The handleChange function updates formData when an input changes, using the input's id as the key and the input's value. 
 export default function SignIn() {
   const [formData,setFormData] = useState({});          //event handling
-  const [errorMessage, setErrorMessage]=useState(null);  //error message for the not filling the form 
-  const [loading,setLoading]=useState(false);   
+  const {loading, error:errorMessage}=useSelector(state=>state.user);   //redux
+  const dispatch =useDispatch()  //redux
   const navigat=useNavigate();   //for navigation of one page to another
   const handleChange=(e)=>{
     setFormData({...formData,[e.target.id]:e.target.value.trim()}); //trim - for removing the sapce that can be write in the form.
@@ -18,12 +19,16 @@ export default function SignIn() {
   const handleSubmit =async(e)=>{
     e.preventDefault();
     if(!formData.email || !formData.password){ //for display error with entring the details
-      return setErrorMessage('Please fill out all the fields.');
+      return dispatch(signInFailure('Please fill all the fields'));  //redux
     }
 
     try{
-      setLoading(true);
-      setErrorMessage(null);  //clear the previous error
+      // setLoading(true);
+      // setErrorMessage(null);  //clear the previous error
+                      //  |                    //redux
+                      //  |
+                      // \/
+      dispatch(signInStart());
       const res=await fetch('/api/auth/signin',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
@@ -32,17 +37,25 @@ export default function SignIn() {
       const data=await res.json();  
 
       if(data.success === false){          //it dispaly the error if already having the accounts
-        return setErrorMessage(data.message);
+        // return setErrorMessage(data.message);
+                      //  |
+                      //  |         //redux
+                      // \/ 
+        dispatch(signInFailure(data.message));
       }
-      setLoading(false);    //if everything is correct or done clearly without any error.. it can not load
+  
       if(res.ok){           //navigate to signin page
+        dispatch(signInSuccess(data));
         navigat('/');
       }
     }
     catch (error){
-      setErrorMessage(error.message);
-      setLoading(false);
-      
+      // setErrorMessage(error.message);
+      // setLoading(false);
+                      //  |
+                      //  |            //redux
+                      // \/
+      dispatch(signInFailure(error.message));
     }
 
 
@@ -89,7 +102,7 @@ export default function SignIn() {
         <div className='flex grap-1 text-sm mt-5'>
           <span>Don't Have an Account?</span>
           <Link to='/sign-up' className='text-blue-500'>
-            Sign In
+            Sign Up
           </Link>
         </div>
         {
