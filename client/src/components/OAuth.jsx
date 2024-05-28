@@ -4,7 +4,7 @@ import { app } from '../firebase';
 import { AiFillGoogleCircle } from 'react-icons/ai';
 import { useDispatch } from 'react-redux';
 import { signInSuccess } from '../redux/user/userSlice';
-import {iyala useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 
 export default function OAuth() {
   const auth =getAuth(app)  //give the parameter as "app" because the firebase cannot know who is requesting "app" that can be comming from the firebae.js 
