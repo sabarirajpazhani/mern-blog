@@ -1,6 +1,7 @@
 import { Alert, Button, Label, Spinner, TextInput } from "flowbite-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../components/OAuth";
 
 
 //The formData state variable holds the current values of the form inputs. The handleChange function updates formData when an input changes, using the input's id as the key and the input's value. 
@@ -89,6 +90,9 @@ export default function SignUp() {
               ):'Sign Up'
             }
           </Button>
+
+          <OAuth/>
+          
         </form>
         <div className='flex grap-1 text-sm mt-5'>
           <span>Have an Account?</span>

@@ -14,8 +14,14 @@ const userSchema = new mongoose.Schema(
     password:{
         type:String,
         required:true,
-    }
-    },{timestamps: true}  //Mongoose automatically adds 'createdAt' and 'updatedAt' fields to the schema
+    },
+    profilePicture :{
+        type:String,
+        default:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQZs48QUix604ageqmCzmG2EnTRtTaaNiL75YHC36W2iw&s",
+    },
+    },
+    {timestamps: true}  //Mongoose automatically adds 'createdAt' and 'updatedAt' fields to the schema
+    
 );
 
     const User = mongoose.model('User',userSchema);  //It allows us to interact with the users collection in the database.

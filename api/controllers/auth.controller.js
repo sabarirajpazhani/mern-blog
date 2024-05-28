@@ -55,3 +55,41 @@ export const signin=async(req,res,next)=>{
         next(error);
     }
 }   
+
+
+export const google=async(req,res,next)=>{
+    //check if the user can be exisit or not , if the usere exisit we want the signIn ,bt not exsist we want to creat the new user
+    const {email, name, googlePhotoUrl}=req.body;
+    try{
+        const user=await User.findOne({email});
+        if(user){  //if the user exisit
+            const token=jwt.sign({id:user._id},process.env.JWT_SECRET);
+            const {password,...rest}=user._doc;
+            res.status(200).cookie('access_token',token,{
+                httpOnly:true, //to make more secure
+            }).json(rest);
+        }else{    //if the email connot exsist means we want to create new user 
+            const generatedPassword=Math.random().toString(36).slice(-8)+Math.random().toString(36).slice(-8);
+            const hashedPassword=bcryptjs.hashSync(generatedPassword,10);
+            const newUser=new User({
+                username:name.toLowerCase().split(' ').join('')+Math.random().toString(9).slice(-4),  // Sabari Raj ==> sabariraj8592
+                email,
+                password: hashedPassword,
+                profilePicture:googlePhotoUrl,
+            });
+            await newUser.save();
+            //creating the token
+            const token =jwt.sign({id:newUser._id},process.env.JWT_SECRET);
+            const{password, ...rest} =newUser._doc;
+            res
+              .status(200)
+              .cookie('access_token',token,{
+                httpOnly:true,
+              })
+              .json(rest);
+
+        }
+    } catch(error){
+        next(error);
+    }
+}
