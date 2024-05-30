@@ -65,7 +65,7 @@ export default function DashProfile() {
       );
   };
   return (
-    // <div className="h-screen bg-cover bg-center"style={{ backgroundImage: "url('')" }}>
+    //<div className="w-screen h-screen bg-cover bg-center"style={{ backgroundImage: "url('https://i.pinimg.com/736x/c6/a3/08/c6a3081f20df2d326933d1b7fc36e6ce.jpg')" }}>
     <div className="max-w-lg mx-auto p-3 w-full">
       <h1 className='my-7 text-center font-semibold text-3xl'>Profile</h1>
       <form className='flex flex-col gap-4'>
@@ -112,6 +112,6 @@ export default function DashProfile() {
 
       </form>
     </div>
-    // </div>
+    //</div>
   )
 }

@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import userRoutes from './routes/user.route.js'; //cheching api
 import authRoutes from './routes/auth.route.js'; //signup api
+import cookieParser from 'cookie-parser'; //for getting cookie 
 
 dotenv.config();
 mongoose.connect(process.env.MONGO)  //for mongoose database
@@ -13,13 +14,14 @@ mongoose.connect(process.env.MONGO)  //for mongoose database
         console.log(err);
     });
 const app=express(); 
-app.use(express.json());        //for signup (in the insomniya) for testing api--> It enables our application to handle JSON data sent in the request body. This is commonly used when building APIs              
+app.use(express.json());        //for signup (in the insomniya) for testing api--> It enables our application to handle JSON data sent in the request body. This is commonly used when building APIs    
+app.use(cookieParser());   // for extracting cookies from the browser          
 app.listen(3000,()=>{
     console.log('Server is   running on Port 3000!');
 });
 
 app.use('/api/user',userRoutes);   //checking api
-app.use('/api/auth',authRoutes);   //signup api
+app.use('/api/auth',authRoutes);   //signup api  
 
 //middleware and error handling
 app.use((err,req,res,next)=>{
